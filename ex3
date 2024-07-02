@@ -1,0 +1,63 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text.Json;
+
+namespace JSONManipulation
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string jsonFilePath = "products.json";
+
+            // Tạo danh sách sản phẩm mẫu
+            List<Product> products = new List<Product>
+            {
+                new Product { Id = 1, Name = "Laptop", Price = 1000, Category = "Electronics" },
+                new Product { Id = 2, Name = "Phone", Price = 600, Category = "Electronics" },
+                new Product { Id = 3, Name = "Desk", Price = 150, Category = "Furniture" }
+            };
+
+            WriteProductsToJson(jsonFilePath, products);
+            Console.WriteLine("danh sach san pham da duoc ghi vao tep JSON.");
+
+            List<Product> readProducts = ReadProductsFromJson(jsonFilePath);
+            Console.WriteLine("Danh sach san pham da duoc doc tu tep JSON:");
+            foreach (var product in readProducts)
+            {
+                Console.WriteLine(product);
+            }
+        }
+
+        public static void WriteProductsToJson(string filePath, List<Product> products)
+        {
+            string jsonString = JsonSerializer.Serialize(products);
+            File.WriteAllText(filePath, jsonString);
+        }
+
+        public static List<Product> ReadProductsFromJson(string filePath)
+        {
+            if (!File.Exists(filePath))
+            {
+                return new List<Product>();
+            }
+
+            string jsonString = File.ReadAllText(filePath);
+            return JsonSerializer.Deserialize<List<Product>>(jsonString);
+        }
+    }
+
+    class Product
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public double Price { get; set; }
+        public string Category { get; set; }
+
+        public override string ToString()
+        {
+            return $"ID: {Id}, Name: {Name}, Price: {Price}, Category: {Category}";
+        }
+    }
+}
