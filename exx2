@@ -1,0 +1,82 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+
+namespace CSVManipulation
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string csvFilePath = "students.csv";
+
+            // Tao danh sach sinh vien mau
+            List<Student> students = new List<Student>
+            {
+                new Student { Id = 1, Name = "Alice", Age = 20, Grade = 85 },
+                new Student { Id = 2, Name = "Bob", Age = 22, Grade = 90 },
+                new Student { Id = 3, Name = "Charlie", Age = 23, Grade = 78 }
+            };
+
+            // Ghi danh sach sinh vien vao tep CSV
+            WriteStudentsToCSV(csvFilePath, students);
+            Console.WriteLine("Danh sach sinh vien da duoc ghi vao tep CSV.");
+
+            // Doc danh sach sinh vien tu tep CSV
+            List<Student> readStudents = ReadStudentsFromCSV(csvFilePath);
+            Console.WriteLine("Danh sach sinh vien da duoc doc tu tep CSV:");
+            foreach (var student in readStudents)
+            {
+                Console.WriteLine(student);
+            }
+        }
+
+        public static void WriteStudentsToCSV(string filePath, List<Student> students)
+        {
+            using (StreamWriter sw = new StreamWriter(filePath))
+            {
+                sw.WriteLine("Id,Name,Age,Grade");
+                foreach (var student in students)
+                {
+                    sw.WriteLine($"{student.Id},{student.Name},{student.Age},{student.Grade}");
+                }
+            }
+        }
+
+        public static List<Student> ReadStudentsFromCSV(string filePath)
+        {
+            List<Student> students = new List<Student>();
+            using (StreamReader sr = new StreamReader(filePath))
+            {
+                string headerLine = sr.ReadLine(); // Doc dong tieu de
+                string line;
+                while ((line = sr.ReadLine()) != null)
+                {
+                    string[] parts = line.Split(',');
+                    Student student = new Student
+                    {
+                        Id = int.Parse(parts[0]),
+                        Name = parts[1],
+                        Age = int.Parse(parts[2]),
+                        Grade = int.Parse(parts[3])
+                    };
+                    students.Add(student);
+                }
+            }
+            return students;
+        }
+    }
+
+    class Student
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int Age { get; set; }
+        public int Grade { get; set; }
+
+        public override string ToString()
+        {
+            return $"ID: {Id}, Name: {Name}, Age: {Age}, Grade: {Grade}";
+        }
+    }
+}
