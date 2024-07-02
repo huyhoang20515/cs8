@@ -1,0 +1,203 @@
+//a
+using System;
+
+namespace ex30
+{
+    public class EditNumbers
+    {
+        public static int nhapsonguyenduong()
+        {
+            int n = 0;
+            while (true)
+            {
+                try
+                {
+                    Console.WriteLine("Nhập số nguyên dương:");
+                    n = int.Parse(Console.ReadLine());
+                    if (n > 0)
+                        break;
+                    else
+                        Console.WriteLine("Bạn phải nhập số nguyên dương!");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Lỗi: " + ex.Message);
+                }
+            }
+            return n;
+        }
+
+        public static float nhapsothuc4byte()
+        {
+            float x = 0.0f;
+            while (true)
+            {
+                try
+                {
+                    Console.WriteLine("Nhập số thực 4 byte:");
+                    x = float.Parse(Console.ReadLine());
+                    break;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Lỗi: " + ex.Message);
+                }
+            }
+            return x;
+        }
+    }
+}
+
+//b
+using System;
+
+namespace ex30
+{
+    public class array_float_2d
+    {
+        private float[,] array;
+
+        public void nhapmangfloat2d(int m, int n)
+        {
+            array = new float[m, n];
+
+            for (int i = 0; i < m; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    Console.Write($"Nhập phần tử [{i},{j}]: ");
+                    array[i, j] = float.Parse(Console.ReadLine());
+                }
+            }
+        }
+
+        public void hienthimangfloat2d()
+        {
+            int m = array.GetLength(0);
+            int n = array.GetLength(1);
+
+            Console.WriteLine("Mảng 2 chiều các số thực:");
+            for (int i = 0; i < m; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    Console.Write(array[i, j] + "\t");
+                }
+                Console.WriteLine();
+            }
+        }
+
+        public void ghimang2dfloat_file_csv(string fileName)
+        {
+            try
+            {
+                using (System.IO.StreamWriter file = new System.IO.StreamWriter(fileName))
+                {
+                    int m = array.GetLength(0);
+                    int n = array.GetLength(1);
+
+                    for (int i = 0; i < m; i++)
+                    {
+                        for (int j = 0; j < n; j++)
+                        {
+                            file.Write(array[i, j] + ",");
+                        }
+                        file.WriteLine();
+                    }
+                }
+
+                Console.WriteLine($"Đã ghi mảng vào file {fileName} thành công!");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Lỗi khi ghi file: {ex.Message}");
+            }
+        }
+
+        public float[,] docmang2dfloat_file_csv(string fileName)
+        {
+            try
+            {
+                string[] lines = System.IO.File.ReadAllLines(fileName);
+                int m = lines.Length;
+                int n = lines[0].Split(',').Length;
+                float[,] result = new float[m, n];
+
+                for (int i = 0; i < m; i++)
+                {
+                    string[] values = lines[i].Split(',');
+                    for (int j = 0; j < n; j++)
+                    {
+                        result[i, j] = float.Parse(values[j]);
+                    }
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Lỗi khi đọc file: {ex.Message}");
+                return null;
+            }
+        }
+    }
+}
+//c
+        public void hienthimangfloat2d(float[,] arr)
+        {
+            int m = arr.GetLength(0);
+            int n = arr.GetLength(1);
+
+            Console.WriteLine("Mảng 2 chiều các số thực:");
+            for (int i = 0; i < m; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    Console.Write(arr[i, j] + "\t");
+                }
+                Console.WriteLine();
+            }
+        }
+//d
+        public void ghimang2dfloat_file_csv(float[,] arr, string fileName)
+        {
+            try
+            {
+                using (System.IO.StreamWriter file = new System.IO.StreamWriter(fileName))
+                {
+                    int m = arr.GetLength(0);
+                    int n = arr.GetLength(1);
+
+                    for (int i = 0; i < m; i++)
+                    {
+                        for (int j = 0; j < n; j++)
+                        {
+                            file.Write(arr[i, j] + ",");
+                        }
+                        file.WriteLine();
+                    }
+                }
+
+                Console.WriteLine($"Đã ghi mảng vào file {fileName} thành công!");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Lỗi khi ghi file: {ex.Message}");
+            }
+        }
+//e
+        public void hienthimangfloat2d(float[,] arr)
+        {
+            int m = arr.GetLength(0);
+            int n = arr.GetLength(1);
+
+            Console.WriteLine("Mảng 2 chiều các số thực:");
+            for (int i = 0; i < m; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    Console.Write(arr[i, j] + "\t");
+                }
+                Console.WriteLine();
+            }
+        }
