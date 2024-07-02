@@ -1,0 +1,74 @@
+using System;
+using System.IO;
+
+namespace FileManipulation
+{
+    class Program
+    {
+        private const string FilePath = "data.txt";
+
+        static void Main(string[] args)
+        {
+            // Tao tep
+            CreateFile(FilePath);
+            Console.WriteLine("Tep duoc tao.");
+
+            // Ghi noi dung vao tep
+            WriteToFile(FilePath, "Day la dong dau tien.");
+            Console.WriteLine("Noi dung da duoc ghi vao tep.");
+
+            // Doc noi dung tu tep
+            ReadFromFile(FilePath);
+
+            // Noi them noi dung vao tep
+            AppendToFile(FilePath, "\nDay la dong thu hai.");
+            Console.WriteLine("Noi dung da duoc noi vao tep.");
+
+            // Doc lai noi dung tu tep
+            ReadFromFile(FilePath);
+
+            // Xoa tep
+            DeleteFile(FilePath);
+            Console.WriteLine("Tep da duoc xoa.");
+        }
+
+        static void CreateFile(string filePath)
+        {
+            if (!File.Exists(filePath))
+            {
+                File.Create(filePath).Close();
+            }
+        }
+
+        static void WriteToFile(string filePath, string content)
+        {
+            File.WriteAllText(filePath, content);
+        }
+
+        static void ReadFromFile(string filePath)
+        {
+            if (File.Exists(filePath))
+            {
+                string content = File.ReadAllText(filePath);
+                Console.WriteLine("Noi dung tep:\n" + content);
+            }
+            else
+            {
+                Console.WriteLine("Tep khong ton tai.");
+            }
+        }
+
+        static void AppendToFile(string filePath, string content)
+        {
+            File.AppendAllText(filePath, content);
+        }
+
+        static void DeleteFile(string filePath)
+        {
+            if (File.Exists(filePath))
+            {
+                File.Delete(filePath);
+            }
+        }
+    }
+}
