@@ -1,0 +1,169 @@
+using System;
+using System.Collections.Generic;
+
+abstract class Person
+{
+    public string Name { get; set; }
+    public string Id { get; set; }
+
+    protected Person(string name, string id)
+    {
+        Name = name;
+        Id = id;
+    }
+}
+
+interface IKpi
+{
+    float Kpi();
+}
+
+class Student : Person, IKpi
+{
+    public string Department { get; set; }
+    private float gpa;
+
+    public Student(string name, string id, string department, float gpa) : base(name, id)
+    {
+        if (!IsValidId(id))
+        {
+            throw new ArgumentException("ID phai co do rong 8 ki tu va deu la ki tu so.");
+        }
+        
+        if (!IsValidDepartment(department))
+        {
+            throw new ArgumentException("Department phai thuoc [\"ICT\", \"ECO\"].");
+        }
+
+        Department = department;
+        this.gpa = gpa;
+    }
+
+    public float Kpi()
+    {
+        return gpa;
+    }
+
+    private bool IsValidId(string id)
+    {
+        return id.Length == 8 && long.TryParse(id, out _);
+    }
+
+    private bool IsValidDepartment(string department)
+    {
+        return department == "ICT" || department == "ECO";
+    }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        Person obs = null;
+
+        try
+        {
+            obs = new Student("Nguyen Tien Dung", "12345678", "ICT", 3.5f);
+            Console.WriteLine($"KPI: {(obs as Student).Kpi()}");
+        }
+        catch (ArgumentException ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+
+        try
+        {
+            obs = new Student("Invalid Student", "1234", "ICT", 3.5f);
+            Console.WriteLine($"KPI: {(obs as Student).Kpi()}");
+        }
+        catch (ArgumentException ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+
+        List<Person> list1 = new List<Person>();
+        List<Person> list2 = new List<Person>();
+
+        Console.WriteLine("Nhap danh sach sinh vien ngoi ban 1 lop 23IT5 ngay 25/06/2024 (ket thuc nhap voi name la #):");
+        while (true)
+        {
+            Console.Write("Nhap ten: ");
+            string name = Console.ReadLine();
+            if (name == "#") break;
+            Console.Write("Nhap id: ");
+            string id = Console.ReadLine();
+            Console.Write("Nhap department: ");
+            string department = Console.ReadLine();
+            Console.Write("Nhap GPA: ");
+            float gpa = float.Parse(Console.ReadLine());
+            try
+            {
+                list1.Add(new Student(name, id, department, gpa));
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        Console.WriteLine("Nhap danh sach sinh vien ngoi ban 2 lop 23IT6 ngay 25/06/2024 (ket thuc nhap voi name la #):");
+        while (true)
+        {
+            Console.Write("Nhap ten: ");
+            string name = Console.ReadLine();
+            if (name == "#") break;
+            Console.Write("Nhap id: ");
+            string id = Console.ReadLine();
+            Console.Write("Nhap department: ");
+            string department = Console.ReadLine();
+            Console.Write("Nhap GPA: ");
+            float gpa = float.Parse(Console.ReadLine());
+            try
+            {
+                list2.Add(new Student(name, id, department, gpa));
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        Console.WriteLine("Danh sach list1:");
+        foreach (var person in list1)
+        {
+            Console.WriteLine($"Name: {person.Name}, Id: {person.Id}, Department: {(person as Student).Department}, GPA: {(person as Student).Kpi()}");
+        }
+
+        Console.WriteLine("Danh sach list2:");
+        foreach (var person in list2)
+        {
+            Console.WriteLine($"Name: {person.Name}, Id: {person.Id}, Department: {(person as Student).Department}, GPA: {(person as Student).Kpi()}");
+        }
+
+        List<List<Person>> list_list = new List<List<Person>> { list1, list2 };
+
+        Console.WriteLine("Danh sach list_list:");
+        foreach (var list in list_list)
+        {
+            foreach (var person in list)
+            {
+                Console.WriteLine($"Name: {person.Name}, Id: {person.Id}, Department: {(person as Student).Department}, GPA: {(person as Student).Kpi()}");
+            }
+        }
+
+        Dictionary<string, Student> dict1 = new Dictionary<string, Student>();
+        foreach (var student in list1)
+        {
+            dict1[student.Id] = student as Student;
+        }
+
+        Console.WriteLine("Tim trong dict1 ban co ten la 'Nam':");
+        foreach (var student in dict1.Values)
+        {
+            if (student.Name == "Nam")
+            {
+                Console.WriteLine($"Name: {student.Name}, Id: {student.Id}, Department: {student.Department}, GPA: {student.Kpi()}");
+            }
+        }
+    }
+}
