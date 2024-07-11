@@ -1,0 +1,30 @@
+using System;
+using System.IO;
+
+public static class HelperCsv
+{
+    public static void GhiMangRaFileCsv(float[,] mang, string filePath)
+    {
+        using (StreamWriter writer = new StreamWriter(filePath))
+        {
+            for (int i = 0; i < mang.GetLength(0); i++)
+            {
+                for (int j = 0; j < mang.GetLength(1); j++)
+                {
+                    writer.Write(mang[i, j].ToString("F4") + ",");
+                }
+                writer.WriteLine();
+            }
+        }
+    }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        float[,] mang = new float[3, 4] { { 1.2f, 2.3f, 3.4f, 4.5f }, { 5.6f, 7.8f, 9.0f, 1.1f }, { 2.2f, 3.3f, 4.4f, 5.5f } };
+        string filePath = "mang.csv";
+        HelperCsv.GhiMangRaFileCsv(mang, filePath);
+    }
+}
