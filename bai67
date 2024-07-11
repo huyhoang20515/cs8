@@ -1,0 +1,24 @@
+using IronXL;
+
+// Tạo một workbook mới
+WorkBook workbook = WorkBook.Create();
+
+// Thêm một worksheet mới vào workbook
+WorkSheet sheet = workbook.WorkSheets.Add("Sheet1");
+
+// Đặt giá trị của một ô
+sheet["A1"].Value = "Xin chào, Thế giới!";
+
+// Lưu workbook vào một file
+workbook.Save("ví dụ.xlsx");
+
+// Đọc một file Excel tồn tại
+WorkBook existingWorkbook = WorkBook.Load("ví dụ.xlsx");
+
+// Lấy worksheet đầu tiên
+WorkSheet existingSheet = existingWorkbook.WorkSheets.First();
+
+// Đọc giá trị của một ô
+string cellValue = existingSheet["A1"].Value.ToString();
+
+Console.WriteLine(cellValue); // Output: "Xin chào, Thế giới!"
