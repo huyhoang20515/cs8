@@ -1,0 +1,3 @@
+Cho phép gán giá trị của các kiểu khác nhau cho min_value, chẳng hạn như int hoặc double, tùy thuộc vào kiểu của mảng được truyền vào phương thức FindMin.
+Bỏ qua kiểm tra kiểu tại thời điểm biên dịch, cho phép mã biên dịch thành công dù không biết kiểu của min_value tại thời điểm biên dịch.
+Cho phép gọi phương thức FindMin với các kiểu mảng khác nhau, chẳng hạn như int[] hoặc double[], mà không cần phải khai báo các phiên bản riêng biệt của phương thức FindMin cho từng kiểu mảng.
