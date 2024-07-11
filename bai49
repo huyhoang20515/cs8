@@ -1,0 +1,38 @@
+using System;
+
+class ChuongTrinh
+{
+    static void Main()
+    {
+        dynamic giaTriNhoNhat;
+
+        int[] mangSoNguyen = { 10, 20, 30, 40, 50 };
+        giaTriNhoNhat = TimGiaTriNhoNhat(mangSoNguyen);
+        Console.WriteLine("Gia tri nho nhat cua mang so nguyen: " + giaTriNhoNhat.ToString());
+
+        uint[] mangSoNguyenKhongDau = { 10, 20, 30, 40, 50 };
+        giaTriNhoNhat = TimGiaTriNhoNhat(mangSoNguyenKhongDau);
+        Console.WriteLine("Gia tri nho nhat cua mang so nguyen khong dau: " + giaTriNhoNhat.ToString());
+
+        float[] mangSoThuc = { 10.5f, 20.5f, 30.5f, 40.5f, 50.5f };
+        giaTriNhoNhat = TimGiaTriNhoNhat(mangSoThuc);
+        Console.WriteLine("Gia tri nho nhat cua mang so thuc: " + giaTriNhoNhat.ToString());
+
+        double[] mangSoThucLon = { 10.5, 20.5, 30.5, 40.5, 50.5 };
+        giaTriNhoNhat = TimGiaTriNhoNhat(mangSoThucLon);
+        Console.WriteLine("Gia tri nho nhat cua mang so thuc lon: " + giaTriNhoNhat.ToString());
+    }
+
+    static T TimGiaTriNhoNhat<T>(T[] mang) where T : IComparable<T>
+    {
+        T giaTriNhoNhat = mang[0];
+        for (int i = 1; i < mang.Length; i++)
+        {
+            if (mang[i].CompareTo(giaTriNhoNhat) < 0)
+            {
+                giaTriNhoNhat = mang[i];
+            }
+        }
+        return giaTriNhoNhat;
+    }
+}
