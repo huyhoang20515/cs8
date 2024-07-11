@@ -1,0 +1,46 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+
+public static class HelperCsv
+{
+    public static bool GhiDictionaryRaFileCsv(Dictionary<string, double> dictionary, string tenFile)
+    {
+        try
+        {
+            using (StreamWriter writer = new StreamWriter(tenFile))
+            {
+              
+                writer.WriteLine("Key,Value");
+
+
+                foreach (var kvp in dictionary)
+                {
+                    writer.WriteLine($"{kvp.Key},{kvp.Value:F8}");
+                }
+            }
+            return true;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Lỗi: " + ex.Message);
+            return false;
+        }
+    }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        Dictionary<string, double> dictionary = new Dictionary<string, double>
+        {
+            { "Ten", 123.4567890123 },
+            { "Tuoi", 25.0 },
+            { "DiaChi", 3.14159265359 }
+        };
+        string tenFile = "dictionary.csv";
+        bool ketQua = HelperCsv.GhiDictionaryRaFileCsv(dictionary, tenFile);
+        Console.WriteLine("Kết Quả: " + ketQua);
+    }
+}
