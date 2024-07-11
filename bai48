@@ -1,0 +1,42 @@
+using System;
+using System.Collections.Generic;
+
+class SinhVien
+{
+    public string MaSo { get; set; }
+    public double DiemTrungBinh { get; set; }
+}
+
+class ChuongTrinh
+{
+    static void Main()
+    {
+        Dictionary<string, double> dict1 = new Dictionary<string, double>();
+
+        while (true)
+        {
+            Console.Write("Nhap MaSo (hoac # de dung): ");
+            string maSo = Console.ReadLine();
+            if (maSo == "#") break;
+
+            Console.Write("Nhap DiemTrungBinh: ");
+            string diemTrungBinhStr = Console.ReadLine();
+            if (!double.TryParse(diemTrungBinhStr, out double diemTrungBinh))
+            {
+                Console.WriteLine("DiemTrungBinh khong hop le. Bo qua...");
+                continue;
+            }
+
+            dict1[maSo] = diemTrungBinh;
+        }
+
+        if (dict1.ContainsKey("123456"))
+        {
+            Console.WriteLine("DiemTrungBinh cua sinh vien co MaSo 123456: " + dict1["123456"]);
+        }
+        else
+        {
+            Console.WriteLine("Khong tim thay sinh vien co MaSo 123456.");
+        }
+    }
+}
