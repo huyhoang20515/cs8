@@ -1,0 +1,37 @@
+using System;
+using System.Collections.Generic;
+using Newtonsoft.Json;
+
+public static class HelperJson
+{
+    public static bool GhiDictionaryRaFileJson(Dictionary<string, object> dictionary, string tenFile)
+    {
+        try
+        {
+            string json = JsonConvert.SerializeObject(dictionary, Formatting.Indented);
+            File.WriteAllText(tenFile, json);
+            return true;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Lỗi: " + ex.Message);
+            return false;
+        }
+    }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        Dictionary<string, object> dictionary = new Dictionary<string, object>
+        {
+            { "Ten", "Nguyen Van A" },
+            { "Tuoi", 25 },
+            { "DiaChi", "Ha Noi" }
+        };
+        string tenFile = "dictionary.json";
+        bool ketQua = HelperJson.GhiDictionaryRaFileJson(dictionary, tenFile);
+        Console.WriteLine("Kết Quả: " + ketQua);
+    }
+}
