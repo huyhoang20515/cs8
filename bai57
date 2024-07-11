@@ -1,0 +1,42 @@
+using System;
+using Newtonsoft.Json;
+
+namespace BaiTap
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            double r;
+            while (true)
+            {
+                Console.Write("Nhập bán kính r: ");
+                if (double.TryParse(Console.ReadLine(), out r) && r > 0)
+                {
+                    break;
+                }
+                Console.WriteLine("Nhập sai, vui lòng nhập lại!");
+            }
+
+            string json = TinhToan(r);
+            Console.WriteLine("Kết quả:");
+            Console.WriteLine(json);
+        }
+
+        static string TinhToan(double r)
+        {
+            double dienTich = Math.PI * r * r;
+            double chuVi = 2 * Math.PI * r;
+            double duongKinh = 2 * r;
+
+            dynamic result = new
+            {
+                dien_tich = dienTich,
+                chu_vi = chuVi,
+                duong_kinh = duongKinh
+            };
+
+            return JsonConvert.SerializeObject(result);
+        }
+    }
+}
