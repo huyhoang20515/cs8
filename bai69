@@ -1,0 +1,110 @@
+using System;
+using System.IO;
+using System.Linq;
+using System.Text;
+
+class ChuongTrinh
+{
+    static void Main(string[] args)
+    {
+        // a. Su dung lop File cua C# viet cac ham tim so dong, tinh so ki tu 1 ki tu cho truoc, tinh so tu duoc phan tach boi dau cach cua file Program.cs.
+        string filePath = "Program.cs";
+        int soDong = DemDong(filePath);
+        Console.WriteLine($"So dong: {soDong}");
+
+        char kiTu = 'a';
+        int demKiTu = DemKiTu(filePath, kiTu);
+        Console.WriteLine($"Dem ki tu '{kiTu}': {demKiTu}");
+
+        int demTu = DemTu(filePath);
+        Console.WriteLine($"So tu: {demTu}");
+
+        // b. Viet ham doc file UTF-8 la "vd1_read.txt" va ghi sang 1 file UTF-8 la "vd1_ghi.txt" su dung lop tĩnh FILE cua C#.
+        string filePathDoc = "vd1_read.txt";
+        string filePathGhi = "vd1_ghi.txt";
+        DocVaGhiFileUtf8(filePathDoc, filePathGhi);
+
+        // c. Viet ham doc file UTF-16 la "vd1_read.txt" va ghi sang 1 file UTF-16 la "vd1_ghi.txt" su dung lop tĩnh FILE cua C#.
+        filePathDoc = "vd1_read.txt";
+        filePathGhi = "vd1_ghi.txt";
+        DocVaGhiFileUtf16(filePathDoc, filePathGhi);
+
+        // d. Viet ham C# su dung kieu FILE, ghi 1 mang 2 chieu cac so thuc 8 byte len 1 file nhi phan a2d.dat. Doc lai file nhi phan vao 1 mang 2 chieu so thuc 8 byte khac de kiem tra.
+        double[,] mang = new double[2, 2] { { 1.0, 2.0 }, { 3.0, 4.0 } };
+        string filePathNhiPhan = "a2d.dat";
+        GhiFileNhiPhan(filePathNhiPhan, mang);
+        double[,] mangDoc = DocFileNhiPhan(filePathNhiPhan);
+        InMang(mangDoc);
+    }
+
+    static int DemDong(string filePath)
+    {
+        string[] dong = File.ReadAllLines(filePath);
+        return dong.Length;
+    }
+
+    static int DemKiTu(string filePath, char kiTu)
+    {
+        string noiDung = File.ReadAllText(filePath);
+        return noiDung.Count(c => c == kiTu);
+    }
+
+    static int DemTu(string filePath)
+    {
+        string noiDung = File.ReadAllText(filePath);
+        return noiDung.Split(' ').Length;
+    }
+
+    static void DocVaGhiFileUtf8(string filePathDoc, string filePathGhi)
+    {
+        string noiDung = File.ReadAllText(filePathDoc, Encoding.UTF8);
+        File.WriteAllText(filePathGhi, noiDung, Encoding.UTF8);
+    }
+
+    static void DocVaGhiFileUtf16(string filePathDoc, string filePathGhi)
+    {
+        string noiDung = File.ReadAllText(filePathDoc, Encoding.Unicode);
+        File.WriteAllText(filePathGhi, noiDung, Encoding.Unicode);
+    }
+
+    static void GhiFileNhiPhan(string filePath, double[,] mang)
+    {
+        using (BinaryWriter writer = new BinaryWriter(File.Open(filePath, FileMode.Create)))
+        {
+            int soDong = mang.GetLength(0);
+            int soCot = mang.GetLength(1);
+            writer.Write(soDong);
+            writer.Write(soCot);
+            for (int i = 0; i < soDong; i++)
+            {
+                for (int j = 0; j < soCot; j++)
+                {
+                    writer.Write(mang[i, j]);
+                }
+            }
+        }
+    }
+
+    static double[,] DocFileNhiPhan(string filePath)
+    {
+        using (BinaryReader reader = new BinaryReader(File.Open(filePath, FileMode.Open)))
+        {
+            int soDong = reader.ReadInt32();
+            int soCot = reader.ReadInt32();
+            double[,] mang = new double[soDong, soCot];
+            for (int i = 0; i < soDong; i++)
+            {
+                for (int j = 0; j < soCot; j++)
+                {
+                    mang[i, j] = reader.ReadDouble();
+                }
+            }
+            return mang;
+        }
+    }
+
+    static void InMang(double[,] mang)
+    {
+        for (int i = 0; i < mang.GetLength(0); i++)
+        {
+            for (int
