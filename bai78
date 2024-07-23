@@ -1,0 +1,31 @@
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+
+class ChuongTrinh
+{
+    static void Main(string[] args)
+    {
+        // Thread
+        var thread = new Thread(() =>
+        {
+            Console.WriteLine("Thread bat dau.");
+            Thread.Sleep(1000);
+            Console.WriteLine("Thread ket thuc.");
+        });
+        thread.Start();
+        thread.Join(); // Đoi thread hoan thanh
+        Console.WriteLine("Main thread ket thuc.");
+
+        // Async/Await
+        Async1().Wait();
+        Console.WriteLine("Main thread ket thuc.");
+    }
+
+    static async Task Async1()
+    {
+        Console.WriteLine("Async bat dau.");
+        await Task.Delay(1000);
+        Console.WriteLine("Async ket thuc.");
+    }
+}
